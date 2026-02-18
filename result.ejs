@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Generated Pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100">
+   <!-- Navbar -->
+<nav class="bg-white p-4 shadow-md transition-all duration-500 ease-in-out bg-opacity-70 backdrop-blur-md">
+    <div class="max-w-screen-xl px-16 mx-auto flex justify-between items-center">
+      <h1 class="text-blue-900 text-2xl italic font-semibold transform transition-transform duration-300 hover:scale-110 hover:text-blue-700"><a href="/dashboard">SiteForge</a></h1>
+      <div class="ml-auto flex space-x-4">
+        <a href="/profile" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Profile</a>
+        <a href="/" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Build Page</a>
+        <a href="/ai/page" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Generate Page</a>
+        <% if (user && user.role !== 'user') { %>  
+          <a href="/admin" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Admin</a>
+          <a href="/contacts" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Queries</a>
+        <% } %>
+        <a href="/contact" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Contact Us</a>
+        <a href="/logout" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Logout</a>
+      </div>
+    </div>
+  </nav>
+<div class="max-w-screen-xl p-4 sm:px-16 mx-auto mt-10 mb-20">
+    <h1 class="text-2xl font-semibold my-4">Generated Web Pages</h1>
+    <div class="bg-white p-4 shadow-md rounded">
+        <div class="flex border-b">
+            <% pages.forEach((page, index) => { %><button class="tab-button px-4 py-2 focus:outline-none" data-index="<%= index %>"><%= page %></button><% }); %>
+        </div>
+        <% codes.forEach((code, index) => { %>
+            <div class="tab-content p-4 hidden" data-index="<%= index %>">
+                <h2 class="font-semibold my-2"><%= pages[index] %> Page Code:</h2>
+                <div class="relative">
+                    <button class="copy-button absolute top-2 right-2 px-2 py-1 text-sm bg-blue-500 text-white rounded">Copy</button>
+                    <pre class="code-block p-2 border bg-gray-200 rounded whitespace-pre-wrap"><%= code %></pre>
+                </div>
+                <p class="copy-message text-green-600 mt-2 hidden">Copied to clipboard!</p>
+                <h2 class="mt-4 font-semibold">Live Preview:</h2>
+                <iframe class="w-full h-96 my-4 mb-8" srcdoc="<%= code %>"></iframe>
+            </div>
+        <% }); %>
+    </div>
+    <a href="/ai/page" class="mt-4 p-3 bg-blue-500 text-white rounded block w-full my-4 text-center">Generate Another</a>
+</div>
+<footer class="bg-blue-900 p-4 shadow-md text-center text-white fixed bottom-0 w-full mt-28">
+    &#169; SiteForge
+</footer>
+<script>
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelector(`.tab-content[data-index='${button.dataset.index}']`).classList.remove('hidden');
+        });
+    });
+    document.querySelectorAll('.copy-button').forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const codeText = document.querySelectorAll('.code-block')[index].innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const message = document.querySelectorAll('.copy-message')[index];
+                message.classList.remove('hidden');
+                setTimeout(() => message.classList.add('hidden'), 2000);
+            });
+        });
+    });
+</script>
+</body>
+</html>

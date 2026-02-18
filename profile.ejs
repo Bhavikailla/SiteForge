@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= user.name %>'s Profile - SiteForge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAQHwjXyAiIxUCnh3-cFywq0K4ZmDFo20YAw&s">
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-white p-4 shadow-md transition-all duration-500 ease-in-out bg-opacity-80 backdrop-blur-md">
+    <div class="max-w-screen-xl px-16 mx-auto flex justify-between items-center">
+      <h1 class="text-blue-900 text-2xl italic font-semibold transform transition-transform duration-300 hover:scale-110 hover:text-blue-700"><a href="/dashboard">SiteForge</a></h1>
+      <div class="ml-auto flex space-x-4">
+        <a href="/profile" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Profile</a>
+        <a href="/" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Build Page</a>
+        <a href="/ai/page" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Generate Page</a>
+        <% if (user && user.role !== 'user') { %>  
+          <a href="/admin" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Admin</a>
+          <a href="/contacts" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Queries</a>
+        <% } %>
+        <a href="/contact" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Contact Us</a>
+        <a href="/logout" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <div class="text-center mb-6"><span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-lg font-semibold inline-block mt-10">User Profile</span></div>
+    <div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg overflow-hidden border border-gray-300">
+      <div class="p-6 bg-white rounded-lg">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <div class="info-box"><span class="font-bold">Username:&nbsp;</span><span class="font-semibold"><%= user.name %></span></div>
+            <div class="info-box"><span class="font-bold">Email:&nbsp;</span><span class="font-semibold"><%= user.email %></span></div>
+            <div class="info-box"><span class="font-bold">Phone:&nbsp;</span><span class="font-semibold"><%= user.phone %></span></div>
+            <div class="info-box"><span class="font-bold">Role:&nbsp;</span><span class="font-semibold"><%= user.role %></span></div>
+            <div class="info-box"><span class="font-bold">Gender:&nbsp;</span><span class="font-semibold"><%= user.gender %></span></div>
+            <div class="info-box"><span class="font-bold">Location:&nbsp;</span><span class="font-semibold"><%= user.location %></span></div>
+          </div>        
+        </div>
+      </div>
+    </div>    
+  </main>
+  <!-- Footer -->
+  <footer class="bg-gray-300 text-center text-blue-900 py-4 shadow-md bg-opacity-80 backdrop-blur-md">&copy; 2025 SiteForge. All Rights Reserved.</footer>
+  <style>
+    body {
+      position: relative;
+      background-image: url('https://img.freepik.com/premium-photo/abstract-background-images-wallpaper-ai-generated_643360-125648.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.4); /* White with 40% opacity */
+      z-index: -1;
+    }
+    .nav-link {
+      @apply text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition-transform transform hover:scale-110;
+    }
+    .info-box {
+      @apply bg-gray-200 p-4 rounded text-gray-700;
+    }
+    .btn {
+      @apply bg-blue-600 text-white px-6 py-2 rounded transition duration-300 hover:bg-blue-700;
+    }
+    .info-box span:first-child {
+      margin-right: 5px;
+    }
+  </style>
+</body>
+</html>

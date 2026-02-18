@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= page.name %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body style="background-image: url('https://th.bing.com/th/id/OIP.Y1lMn8SOECpl8ffrDYbPdwHaE7?w=626&h=417&rs=1&pid=ImgDetMain'); background-size: cover; background-position: center;">
+ <!-- Navbar -->
+<nav class="bg-white p-4 shadow-md transition-all duration-500 ease-in-out">
+  <div class="max-w-screen-xl px-16 mx-auto flex justify-between items-center">
+    <!-- Logo with Hover Animation -->
+    <h1 class="text-blue-900 text-2xl italic font-semibold transform transition-transform duration-300 hover:scale-110 hover:text-blue-700"><a href="/dashboard">SiteForge</a></h1>
+    <!-- Navbar Links Aligned to the Right -->
+    <div class="ml-auto flex space-x-4">
+      <a href="/profile" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Profile</a>
+      <a href="/" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Build Page</a>
+      <a href="/ai/page" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Generate Page</a>
+      <% if (user && user.role !== 'user') { %>  
+        <a href="/admin" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Admin</a>
+        <a href="/contacts" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Queries</a>
+      <% } %>
+      <a href="/contact" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Contact Us</a>
+      <a href="/logout" class="text-blue-900 text-sm bg-gray-300 px-4 py-2 rounded transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white transform hover:scale-110">Logout</a>
+    </div>
+  </div>
+</nav>
+<!-- Main Content -->
+<div class="max-w-4xl mx-auto mt-20 mb-20">
+  <div class="bg-white p-6 rounded">
+    <!-- ✅ Wrap h2 in a flex container for proper centering -->
+    <div class="flex justify-center"><h2 class="text-2xl italic font-semibold mb-4 bg-gray-200 text-blue-900 px-6 py-2 rounded-full shadow-md"><%= page.name %></h2></div>
+    <div x-data="{ elements: <%= JSON.stringify(page.content) %> }">
+        <template x-for="(item, index) in elements" :key="index">
+            <div :class="index % 2 === 0 ? 'my-6' : 'my-4'">
+                <template x-if="item.type.startsWith('grid grid-cols-')">
+                    <div :class="item.type" class="gap-2 w-full">
+                        <template x-for="(col, colIndex) in item.content" :key="colIndex">
+                            <div :class="col.type" class="border p-4"x-text="Array.isArray(col.content) ? col.content.join(' ') : col.content"></div>
+                        </template>
+                    </div>
+                </template>
+                <!-- ✅ Fixed Image Display: Check Both `content` and `src` -->
+                <template x-if="(item.src || item.content) && item.type === 'rounded'">
+                    <img :src="(item.src || item.content).startsWith('data:image') || (item.src || item.content).startsWith('http') ? (item.src || item.content) : '/' + (item.src || item.content)" :style="item.styles" class="block border-0 rounded">
+                </template>
+                <template x-if="item.src && item.type === 'video'">
+                    <video :src="item.src.startsWith('http') ? item.src : '/' + item.src" :style="item.styles" class="block border-0 rounded" controls></video>
+                </template>
+                <!-- ✅ Fix: Ensure Other Content is Displayed Properly -->
+                <template x-if="!item.src && !item.content.startsWith('data:image') && !item.content.startsWith('http')">
+                    <span :class="item.type" :style="item.styles" x-html="Array.isArray(item.content) ? item.content.join(' ') : item.content"></span>
+                </template>
+            </div>
+        </template>
+    </div>
+</div>
+ <!-- ✅ Button with animation -->
+ <a href="/dashboard" class="block mt-4 bg-green-400 text-black p-4 rounded shadow text-center w-full max-w-4xl mx-auto transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg">← Back to Pages</a>
+</div>
+<!-- Footer -->
+<footer class="bg-gray-300 text-gray-900 py-4 shadow-md w-full mt-97">
+  <div class="container mx-auto flex flex-col items-center justify-center px-6 text-center">
+      <div class="text-lg font-semibold">&copy; 2025 SiteForge. All Rights Reserved.</div>
+  </div>
+</footer>
+</body>
+</html>
